@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="unit-length.css"
+    />
+  </head>
+  <body>
+    <!-- 
+        em:
+        1. Relatif terhadap ukuran font di element parent
+        2. Jika parent tidak memiliki font size, by default akan di kalikan 16px
+        3. Akan dikalikan terus jika parent nya tidak memiliki ukuran font em
+    -->
+    <div id="parent1">
+      <p>Hello, World!</p>
+    </div>
+
+    <!-- 
+        rem: 
+        1. Relatif terhadap ukuran font di element root
+        2. Jika root tidak memiliki font size, by default akan di kalikan 16px
+    -->
+    <div id="parent2">
+      <p>Purwadhika</p>
+    </div>
+
+    <!-- 
+        vw(viewport width)
+    -->
+    <div id="parent3">Example</div>
+
+    <div id="parent4">
+        Example
+    </div>
+  </body>
+</html>

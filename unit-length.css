@@ -1,0 +1,29 @@
+:root {
+  font-size: 10px;
+}
+
+body {
+  font-size: 2em;
+}
+
+#parent1 {
+  font-size: 10em;
+}
+
+#parent1 p {
+  font-size: 0.5em;
+}
+
+#parent2 p {
+  font-size: 10rem;
+}
+
+#parent3 {
+  width: 50vw;
+  background-color: antiquewhite;
+}
+
+#parent4 {
+  height: 50vh;
+  background-color: blueviolet;
+}
