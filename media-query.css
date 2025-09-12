@@ -1,0 +1,32 @@
+/* MOBILE */
+/* 0px - 480px */
+/* Red */
+h1 {
+  color: red;
+}
+
+h2{
+    color: salmon
+}
+
+/* TABLET */
+/* 481px - 768px */
+@media screen and (min-width: 481px) {
+  /* Blue */
+  h1 {
+    color: blue;
+  }
+
+  h2{
+    color: brown
+  }
+}
+
+/* SMALL SCREEN */
+/* 769px - Tak Terhingga */
+@media screen and (min-width: 769px) {
+  /* Green */
+  h1 {
+    color: green;
+  }
+}

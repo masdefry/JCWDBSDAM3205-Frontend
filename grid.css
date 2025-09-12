@@ -1,0 +1,25 @@
+#container {
+  background-color: gray;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: 1fr 1fr 1fr;
+  height: 300px;
+  color: pink;
+}
+
+#container div {
+  background-color: yellow;
+}
+
+#container div:nth-child(odd) {
+  background-color: blueviolet;
+}
+
+#container #child-1 {
+  grid-column: 1/4;
+  grid-row: 1/4;
+}
+
+#container #child-2 {
+  grid-column: 4/9;
+}
