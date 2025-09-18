@@ -18,7 +18,7 @@ export default function Page() {
     ]); // setTodos('xxx') -> Expected: setTodos(['xxx'])
   };
 
-  const handleDeleteTodo = (index: number) => {
+  const handleUpdateTodo = (index: number) => {
     /*
         ⚠️ TIDAK DIPERBOLEHKAN LANGSUNG MERUBAH VALUE DIDALAM USESTATE. 
         TIDAK MEN-TRIGGER UI UNTUK DI RENDER ULANG KETIKA TERJADI PERUBAHAN VALUE:
@@ -34,6 +34,14 @@ export default function Page() {
     currentTodos[index].isDeleted = true;
 
     // Set state dengan variable baru
+    setTodos(currentTodos);
+  };
+
+  const handleDeleteTodo = (index: number) => {
+    const currentTodos = [...todos];
+
+    currentTodos.splice(index, 1);
+
     setTodos(currentTodos);
   };
 
@@ -72,7 +80,7 @@ export default function Page() {
                     type='checkbox'
                     defaultChecked={todo?.isDeleted}
                     className='checkbox'
-                    onChange={() => handleDeleteTodo(index)} // () => Untuk nge-delay supaya function tidak langsung terpanggil
+                    onChange={() => handleUpdateTodo(index)} // () => Untuk nge-delay supaya function tidak langsung terpanggil
                   />
                   {todo?.isDeleted ? ( // if(todo?.isDeleted === true)
                     <del>{todo?.input}</del>
@@ -81,7 +89,10 @@ export default function Page() {
                     <div>{todo?.input}</div>
                   )}
                 </div>
-                <button className='btn btn-square btn-ghost w-fit'>
+                <button
+                  onClick={() => handleDeleteTodo(index)}
+                  className='btn btn-square btn-ghost w-fit'
+                >
                   Delete
                 </button>
               </li>
