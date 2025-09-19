@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import Image from 'next/image';
 
 export default function Page() {
   const [todos, setTodos] = useState<any[]>([]);
@@ -47,6 +48,12 @@ export default function Page() {
 
   return (
     <div className='flex flex-col items-center mt-10'>
+      <Image
+        src='/kucing.jpg'
+        alt='Image Kucing'
+        width={100}
+        height={200}
+      />
       <div className='flex w-[540px]'>
         <h1 className='text-2xl font-bold'>T O D O</h1>
       </div>
