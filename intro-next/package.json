@@ -8,6 +8,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/axios": "^0.9.36",
+    "axios": "^1.12.2",
+    "backendless": "^7.4.7",
     "daisyui": "^5.1.13",
     "next": "15.5.3",
     "react": "19.1.0",
