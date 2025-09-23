@@ -12,9 +12,11 @@
     "axios": "^1.12.2",
     "backendless": "^7.4.7",
     "daisyui": "^5.1.13",
+    "formik": "^2.4.6",
     "next": "15.5.3",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

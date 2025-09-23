@@ -16,12 +16,38 @@ export async function GET(req: NextRequest) {
     );
   } catch (error) {
     return NextResponse.json(
-        {
-            message: 'Something went wrong'
-        },
-        {
-            status: 500
-        }
-    )
+      {
+        message: 'Something went wrong',
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const data = await req.json(); // req.json: Digunakan untuk mengambil request data yg dikirimkan oleh frontend app
+
+    await Backendless.Data.of('Products').save(data);
+
+    return NextResponse.json(
+      {
+        message: 'Create Product Successfull',
+      },
+      {
+        status: 201,
+      }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: 'Something went wrong',
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }
