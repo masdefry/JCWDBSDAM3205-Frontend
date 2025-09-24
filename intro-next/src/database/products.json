@@ -1,0 +1,14 @@
+{
+  "products": [
+    {
+      "id": "1cc2",
+      "name": "Apel Malang",
+      "price": 15000
+    },
+    {
+      "id": "12bd",
+      "name": "Mangga Indramayu",
+      "price": 25000
+    }
+  ]
+}
