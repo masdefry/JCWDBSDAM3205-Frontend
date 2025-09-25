@@ -1,59 +1,91 @@
-import Image from 'next/image';
-import { RiUser6Line } from 'react-icons/ri';
-import { CiSearch } from 'react-icons/ci';
-import { IoIosHeartEmpty } from 'react-icons/io';
-import { AiOutlineShoppingCart } from 'react-icons/ai';
+'use client';
+import { useFormik } from 'formik';
+import { loginValidationSchema } from './schemas/loginValidationSchema';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import useAuthStore from '@/store/useAuthStore';
+import { useState } from 'react';
+
 export default function Page() {
+  const { setAuthStore } = useAuthStore();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleLoginAccount = async (username: string, password: string) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.post(
+        'http://localhost:3000/api/auth/login',
+        {
+          username: username,
+          password: password,
+        }
+      );
+      console.log(response?.data?.data?.email);
+      /* Men-trigger method `setAuthStore` dan mengirimkan argument email yg didapat dari response login */
+      setAuthStore({
+        _email: response?.data?.data?.email,
+      });
+      toast.success('Login account successfully');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    validationSchema: loginValidationSchema,
+    onSubmit: async (values) => {
+      handleLoginAccount(values?.username, values?.password);
+    },
+  });
+
   return (
     <div>
-      {/* NAVBAR SECTION */}
-      <nav className='grid grid-cols-3 p-5 bg-gray-300'>
-        <div>
-          <Image
-            src={'/static/Frame 168.png'}
-            alt='Logo Funniro'
-            width={185}
-            height={41}
-          />
-        </div>
-        <div className='flex items-center justify-center gap-10 font-bold'>
-          <div>Home</div>
-          <div>Shop</div>
-          <div>About</div>
-          <div>Contact</div>
-        </div>
-        <div className='flex items-center justify-end gap-5'>
-          <RiUser6Line className='text-2xl' />
-          <CiSearch className='text-2xl' />
-          <IoIosHeartEmpty className='text-2xl' />
-          <AiOutlineShoppingCart className='text-2xl' />
-        </div>
-      </nav>
-
       {/* FORM LOGIN SECTION */}
       <div className='flex justify-center p-10'>
         <div className='w-[500px]'>
           <h1 className='text-2xl font-bold'>Login Account</h1>
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <fieldset className='fieldset w-full'>
-              <legend className='fieldset-legend'>What is your name?</legend>
+              <legend className='fieldset-legend'>Type your username:</legend>
               <input
                 type='text'
                 className='input w-full'
-                placeholder='Type here'
+                placeholder='email@email.com'
+                name='username'
+                onChange={formik.handleChange}
+                value={formik.values.username}
               />
-              <p className='label'>Optional</p>
+              <p className='label text-red-500'>
+                {formik?.errors?.username ?? ''}
+              </p>
             </fieldset>
             <fieldset className='fieldset w-full'>
-              <legend className='fieldset-legend'>What is your name?</legend>
+              <legend className='fieldset-legend'>Type your password:</legend>
               <input
                 type='text'
                 className='input w-full'
-                placeholder='Type here'
+                placeholder='******'
+                name='password'
+                onChange={formik.handleChange}
+                value={formik.values.password}
               />
-              <p className='label'>Optional</p>
+              <p className='label text-red-500'>
+                {formik?.errors?.password ?? ''}
+              </p>
             </fieldset>
-            <button className='btn btn-outline mt-5'>Login Account</button>
+            <button
+              type='submit'
+              disabled={isLoading}
+              className='btn btn-outline mt-5'
+            >
+              Login Account
+            </button>
           </form>
         </div>
       </div>
