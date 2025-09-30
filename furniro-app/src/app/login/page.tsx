@@ -4,11 +4,13 @@ import { loginValidationSchema } from './schemas/loginValidationSchema';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import useAuthStore from '@/store/useAuthStore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
-  const { setAuthStore } = useAuthStore();
+  const { setAuthStore, objectId } = useAuthStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleLoginAccount = async (username: string, password: string) => {
     try {
@@ -20,17 +22,35 @@ export default function Page() {
           password: password,
         }
       );
-      console.log(response?.data?.data?.email);
+      console.log(response?.data?.data);
       /* Men-trigger method `setAuthStore` dan mengirimkan argument email yg didapat dari response login */
       setAuthStore({
         _email: response?.data?.data?.email,
+        _username: response?.data?.data?.name,
+        _objectId: response?.data?.data?.objectId,
       });
       toast.success('Login account successfully');
+      router.push('/');
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const onSessionLoginAccount = async () => {
+    const response = await axios.post(
+      'http://localhost:3000/api/auth/session-login',
+      {
+        objectId,
+      }
+    );
+
+    setAuthStore({
+      _email: response?.data?.data?.email,
+      _username: response?.data?.data?.name,
+      _objectId: response?.data?.data?.objectId,
+    });
   };
 
   const formik = useFormik({
@@ -43,6 +63,21 @@ export default function Page() {
       handleLoginAccount(values?.username, values?.password);
     },
   });
+
+  // ComponentDidUpdate
+  useEffect(() => {
+    /*
+      useEffect disini dipanggil 2x. Saat halaman pertama kali di akses, dan saat 
+      objectId useAuthStore terisi dari localStorage. 
+
+      Maka untuk menghindari pemanggilan onSessionLoginAccount 2x, diberi pengkondisian. 
+      Sehingga onSessionLoginAccount baru dipanggil ketika objectId nya sudah terisi
+    */
+    console.log('useEffect:::');
+    if (objectId) {
+      onSessionLoginAccount();
+    }
+  }, [objectId]);
 
   return (
     <div>
