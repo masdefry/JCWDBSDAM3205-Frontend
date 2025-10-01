@@ -38,21 +38,6 @@ export default function Page() {
     }
   };
 
-  const onSessionLoginAccount = async () => {
-    const response = await axios.post(
-      'http://localhost:3000/api/auth/session-login',
-      {
-        objectId,
-      }
-    );
-
-    setAuthStore({
-      _email: response?.data?.data?.email,
-      _username: response?.data?.data?.name,
-      _objectId: response?.data?.data?.objectId,
-    });
-  };
-
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -63,21 +48,6 @@ export default function Page() {
       handleLoginAccount(values?.username, values?.password);
     },
   });
-
-  // ComponentDidUpdate
-  useEffect(() => {
-    /*
-      useEffect disini dipanggil 2x. Saat halaman pertama kali di akses, dan saat 
-      objectId useAuthStore terisi dari localStorage. 
-
-      Maka untuk menghindari pemanggilan onSessionLoginAccount 2x, diberi pengkondisian. 
-      Sehingga onSessionLoginAccount baru dipanggil ketika objectId nya sudah terisi
-    */
-    console.log('useEffect:::');
-    if (objectId) {
-      onSessionLoginAccount();
-    }
-  }, [objectId]);
 
   return (
     <div>

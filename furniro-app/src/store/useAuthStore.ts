@@ -5,6 +5,7 @@ type TUseAuthStore = {
   email: string;
   username: string;
   objectId: string;
+  hasHydrated: boolean;
   setAuthStore: ({
     _email,
     _username,
@@ -14,6 +15,7 @@ type TUseAuthStore = {
     _username: string;
     _objectId: string;
   }) => void;
+  setHasHydrated: (state: boolean) => void;
 };
 
 // email, username, objectId
@@ -23,6 +25,7 @@ const useAuthStore = create<TUseAuthStore>()(
       email: '',
       username: '',
       objectId: '',
+      hasHydrated: false,
       /* _email yg didapat dari page login, di assign ke props email yg ada di line 4 */
       setAuthStore: ({ _email, _username, _objectId }) =>
         set(() => ({
@@ -30,11 +33,15 @@ const useAuthStore = create<TUseAuthStore>()(
           username: _username,
           objectId: _objectId,
         })),
+      setHasHydrated: (state: boolean) => set({ hasHydrated: state }),
     }),
     {
       name: 'user-storage',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({ objectId: state.objectId }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );
